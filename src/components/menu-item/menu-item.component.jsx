@@ -5,7 +5,11 @@ import "./menu-item.component.scss";
 const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
   <div
     className={`menu-item ${size}`}
-    onClick={() => history.push(`${match.url}${linkUrl}`)}
+    onClick={() => history.push(`${match.url}${linkUrl}`)}  
+    /* 
+    1. history.push: Pushes a new entry onto the history stack.
+    2. In APP.js component homepage's url is '/', so if click menu-item id:'1',  URL would be match.url:'/' +linkUrl:'shop/hats'.
+    */
   >
     <div
       className="background-image"
@@ -18,4 +22,4 @@ const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
   </div>
 );
 
-export default withRouter(MenuItem);
+export default withRouter(MenuItem);  // WithRouter will pass updated match, location, and history props to the wrapped component whenever it renders.

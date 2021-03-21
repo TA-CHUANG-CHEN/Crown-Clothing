@@ -2,9 +2,9 @@ import React from "react";
 import "./directory.component.scss";
 import MenuItem from "../menu-item/menu-item.component";
 
-class Directory extends React.Component {
+class Directory extends React.Component { 
   constructor(props) {
-    super(props);
+    super(props); 
     this.state = {
       sections: [
         {
