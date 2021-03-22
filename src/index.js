@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom"; /*which Component u want to Wrap and render*/
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
