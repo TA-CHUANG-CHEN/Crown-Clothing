@@ -4,6 +4,7 @@ import "./App.css";
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./pages/header/header.component";
+import SignInSignUpPage from "./pages/sing-in-sign-up/sign-in-sign-up.component";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         3. When exact == true, will only match if the path matches the location.pathname exactly.
         */}
         <Route path="/shop" component={ShopPage} />
+        <SignInSignUpPage path="/signin" component={SignInSignUpPage} />
       </Switch>
     </div>
   );
