@@ -11,7 +11,7 @@ const FormInput = ({ handleChange, label, id, ...otherProps }) => (
     />
     {label ? (
       <label
-        htmlFor={id}
+        htmlFor={id} // equal to for
         className={`${otherProps.value.length ? "shrink" : ""}form-input-label`}
       >
         {label}

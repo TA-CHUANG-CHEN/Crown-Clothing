@@ -14,17 +14,23 @@ class App extends React.Component {
       currentUser: null,
     };
   }
+
+  unsubscribeFromAuth = null;
+
   componentDidMount() {
-    auth.onAuthStateChanged((user) => {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+      // onAuthStateChanged( completed ? : firebase. unsubscribe)
       this.setState({ currentUser: user });
       console.log(user);
     });
   }
-
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
   render() {
     return (
       <div>
-        <Header />
+        <Header currentUser={this.state.currentUser} />
         <Switch>
           {/* 1. Renders the first child <Route> or <Redirect> that matches the location, here will be /SHOP unless page in root directory */}
           <Route exact path="/" component={HomePage} />
