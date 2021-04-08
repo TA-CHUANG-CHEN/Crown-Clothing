@@ -3,11 +3,11 @@ import "./custom-buttom.style.scss";
 
 const CustomButton = ({ children, isGoogleSignIn, ...otherProps }) => (
   <button
-    className={`${isGoogleSignIn ? "google-sign-in" : ""} custom-button`}
+    className={`${isGoogleSignIn ? "google-sign-in" : ""} custom-button`} // if true google-sign-in will work
     {...otherProps}
   >
     {children}
-  </button>
+  </button> // /* props.children === <CustomButton> children </CustomButton> */
 );
 
 export default CustomButton;

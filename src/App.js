@@ -19,7 +19,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      // onAuthStateChanged( completed ? : firebase. unsubscribe)
+      // onAuthStateChanged( completed ? : firebase.unsubscribe (logout))
       this.setState({ currentUser: user });
       console.log(user);
     });
