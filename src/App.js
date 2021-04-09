@@ -5,7 +5,7 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./pages/header/header.component";
 import SignInSignUpPage from "./pages/sing-in-sign-up/sign-in-sign-up.component";
-import { auth } from "./firebase/firebase.utils";
+import { auth, creatUserProfileDocument } from "./firebase/firebase.utils";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,10 +18,27 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      // onAuthStateChanged( completed ? : firebase.unsubscribe (logout))
-      this.setState({ currentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      //auth() The Firebase Auth service interface. user == A user account.
+      //creatUserProfileDocument(user);user(props) => creatUserProfileDocument
+      if (userAuth) {
+        const userRef = await creatUserProfileDocument(userAuth);
+
+        userRef.onSnapshot((snapShot) => {
+          this.setState(
+            {
+              currentUser: {
+                id: snapShot.id,
+                ...snapShot.data(),
+              },
+            },
+            () => {
+              console.log(this.state);
+            }
+          );
+        });
+      }
+      this.setState({ currentUser: userAuth });
     });
   }
   componentWillUnmount() {
