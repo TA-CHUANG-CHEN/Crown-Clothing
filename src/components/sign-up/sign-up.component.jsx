@@ -2,11 +2,7 @@ import React from "react";
 import FromInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-buttom.component";
 
-import {
-  auth,
-  createUserProfileDocument,
-  creatUserProfileDocument,
-} from "../../firebase/firebase.utils";
+import { auth, creatUserProfileDocument } from "../../firebase/firebase.utils";
 import "./sign-up.component.style.scss";
 
 class SignUp extends React.Component {
@@ -45,7 +41,7 @@ class SignUp extends React.Component {
   };
   handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value }); // name === e.target.value
+    this.setState({ [name]: value }); // name === input elements name attritube when u need multiple input be controlled.
   };
   render() {
     const { displayName, email, password, confirmPassword } = this.state;
