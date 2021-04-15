@@ -14,14 +14,21 @@ const config = {
 };
 
 export const creatUserProfileDocument = async (userAuth, additionalData) => {
+  //userAuth get back from Auth
   if (!userAuth) return; // if there is no userAuth exist then return.
-  const userRef = firestore.doc(`users/${userAuth.uid}`); //  The user's ID, from firebase NoSQL cloud databasse collection/documentID (user.uid)
-  const snapshot = await userRef.get(); // retrive uid from users/userAuth.uid
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  /* 
+  queries method, doc() from firebase NoSQL cloud databasse collection/documentID 
+  here is user.uid whatever uid exist or not google will give u one
+  */
+  const snapshot = await userRef.get(); // (CRUD) Read = retrive contents from users/userAuth.uid(userRef)
   if (!snapshot.exists) {
-    const { displayName, email, photoURL } = userAuth; //snapshot =>
+    // if doc.users.userAuth.uid return false(dont exist) then create.
+    const { displayName, email, photoURL } = userAuth; // get userdata from userauth (google, email/password...)
     const createdAt = new Date();
     try {
       await userRef.set({
+        // set == create doc.users.displayname...
         displayName,
         email,
         createdAt,
@@ -32,7 +39,7 @@ export const creatUserProfileDocument = async (userAuth, additionalData) => {
       console.log("error creating user", error.message);
     }
   }
-  return userRef;
+  return userRef; //if doc.user.don't have data then create, if exist, return doc.user.displayname...
 };
 // Initialize Firebase
 firebase.initializeApp(config);

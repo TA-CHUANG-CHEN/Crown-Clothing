@@ -50,6 +50,9 @@
   },
   "devDependencies": {
     "firebase": "^8.3.1",
-    "node-sass": "^5.0.0"
+    "node-sass": "^5.0.0",
+    "react-redux": "^7.2.3",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6"
   }
 }
