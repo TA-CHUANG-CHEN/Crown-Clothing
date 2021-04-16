@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import "./App.css";
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
-import Header from "./pages/header/header.component";
+import Header from "./components/header/header.component";
 import SignInSignUpPage from "./pages/sing-in-sign-up/sign-in-sign-up.component";
 import { auth, creatUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
