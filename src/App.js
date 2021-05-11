@@ -15,7 +15,7 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const setCurrentUser = this.props.setCurrentUser;
     // we need react to listening user state.
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       //auth() The Firebase Auth service interface listening auth state like sign-in props is user.
