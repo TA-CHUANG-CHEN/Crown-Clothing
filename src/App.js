@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import CheckoutPage from "./pages/checkout/checkout.component";
 import "./App.css";
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
@@ -41,7 +42,7 @@ class App extends React.Component {
       <div>
         <Header />
         <Switch>
-          {/* 1. Renders the first child <Route> or <Redirect> that matches the location, here will be /SHOP unless page in root directory */}
+          {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
           <Route exact path="/" component={HomePage} />
           {/* 
         1. All route props (match, location and history) are available to Homepages 
@@ -49,6 +50,7 @@ class App extends React.Component {
         3. When exact == true, will only match if the path matches the location.pathname exactly.
         */}
           <Route path="/shop" component={ShopPage} />
+          <Route exact path="/checkout" component={CheckoutPage} />
           <Route
             exact
             path="/signin"
