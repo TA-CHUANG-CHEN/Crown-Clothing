@@ -42,5 +42,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   hidden: selectCartHidden,
 });
-//我硬舉練完當下，下背沒有酸或是疼痛，但是隔天開始大概都會痠兩天正常嗎?1RM是240  大概過程是120*5 /144*5.../215*3
 export default connect(mapStateToProps)(Header);
