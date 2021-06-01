@@ -10,7 +10,8 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
   selectCollections,
-  (collections) => Object.keys(collections).map((key) => collections[key])
+  (collections) => Object.keys(collections).map((key) => collections[key])  
+  // collections[hats] == collections.hats
   // for...in can literate keys include prototype but won't take Object to Array
 );
 
@@ -28,8 +29,7 @@ const COLLECTION_ID_MAP = {
   jackets: 3,
   womens: 4,
   mens: 5,
-}; */
-/*
+}; 
 
 1. older version, no effiecient. casue find method will compare all array.
 export const selectCollection = (collectionUrlParam) =>
