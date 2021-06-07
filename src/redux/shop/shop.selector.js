@@ -5,20 +5,20 @@ const selectShop = (state) => state.shop;
 
 export const selectCollections = createSelector(
   [selectShop],
-  (shop) => shop.collections // shop.data is Object now!
+  (shop) => shop.collections // shop.data don't
 );
 
 export const selectCollectionsForPreview = createSelector(
   selectCollections,
-  (collections) => Object.keys(collections).map((key) => collections[key])
+  (collections) =>
+    collections ? Object.keys(collections).map((key) => collections[key]) : []
   // collections[hats] == collections.hats
   // for...in can literate keys include prototype but won't take Object to Array
 );
 
 export const selectCollection = (collectionUrlParam) =>
-  createSelector(
-    [selectCollections],
-    (collections) => collections[collectionUrlParam]
+  createSelector([selectCollections], (collections) =>
+    collections ? collections[collectionUrlParam] : null
   );
 
 /* 

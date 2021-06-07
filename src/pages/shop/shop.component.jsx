@@ -1,40 +1,68 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   firestore,
   convertCollectionSnapshotToMap,
 } from "../../firebase/firebase.utils";
+import { updateCollections } from "../../redux/shop/shop.actions";
 import CollectionsOverview from "../../components/collections-overview/collections-overview.component";
 import CollectionPage from "../collection/collection.component";
+import WithSpinner from "../../components/with-spinner/with-spinner.component";
+
+const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview); //HOC for loading
+const CollectionPageWithSpinner = WithSpinner(CollectionPage); //HOC for loading
 
 class ShopPage extends React.Component {
+  //we don't need construtor && super to keep this because react help us to do it.
+  state = {
+    loading: true,
+  };
+
   // now we need to retrieve shopdata from firebase
   unsubscribeFromSnapshot = null;
   componentDidMount() {
+    const { updateCollections } = this.props;
     const collectionsRef = firestore.collection("collections"); // path collections
     this.unsubscribeFromSnapshot = collectionsRef.onSnapshot(
       async (snapshot) => {
         //snapshot is actually object we can see inside. like doc(),empty()...
         const collectionsMap = convertCollectionSnapshotToMap(snapshot);
-        console.log(collectionsMap);
+        updateCollections(collectionsMap);
+        this.setState({ loading: false });
       }
     );
   }
   render() {
     const { match } = this.props;
+    const { loading } = this.state;
     return (
       <div className="shop-page">
-        <Route exact path={`${match.path}`} component={CollectionsOverview} />
+        <Route
+          exact
+          path={`${match.path}`} /* component={CollectionsOverview}*/
+          render={(props) => (
+            <CollectionOverviewWithSpinner isLoading={loading} {...props} />
+          )}
+        />
         <Route
           path={`${match.path}/:collectionId`}
-          component={CollectionPage}
+          /*component={CollectionPage}*/
+          render={(props) => (
+            <CollectionPageWithSpinner isLoading={loading} {...props} />
+          )}
         />
       </div>
     );
   }
 }
 
-export default ShopPage;
+const mapDispatchToProps = (dispatch) => ({
+  updateCollections: (collectionsMap) =>
+    dispatch(updateCollections(collectionsMap)),
+});
+
+export default connect(null, mapDispatchToProps)(ShopPage);
 
 // import SHOP_DATA from "./shop.data"; //json.file
 

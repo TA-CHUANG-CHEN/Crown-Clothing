@@ -63,7 +63,6 @@ export const addCollectionAndDocuments = async (CollectionKey, objectToAdd) => {
 export const convertCollectionSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map((doc) => {
     const { title, items } = doc.data();
-    console.log(doc.id);
     return {
       routeName: encodeURI(title.toLowerCase()),
       // firebase don't have it casue we  only upload item/title from shopdata
@@ -72,7 +71,8 @@ export const convertCollectionSnapshotToMap = (collections) => {
       items,
     };
   });
-  transformedCollection.reduce((accumlator, collection) => {
+
+  return transformedCollection.reduce((accumlator, collection) => {
     accumlator[collection.title.toLowerCase()] = collection;
     return accumlator;
   }, {});

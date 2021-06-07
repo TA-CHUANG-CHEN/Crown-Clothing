@@ -11,18 +11,18 @@ import SignInSignUpPage from "./pages/sing-in-sign-up/sign-in-sign-up.component"
 import {
   auth,
   creatUserProfileDocument,
-  //addCollectionAndDocuments, this is for store shop data at a time in firebase. 
+  addCollectionAndDocuments, //this is for store shop data at a time in firebase.
 } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
-//import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
+import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
     // const setCurrentUser = this.props.setCurrentUser; same
-    const { setCurrentUser /* collectionArray */ } = this.props; //this props dispatch from mapDispatchtoProps setCurrentUser
+    const { setCurrentUser, collectionArray } = this.props; //this props dispatch from mapDispatchtoProps setCurrentUser
     // we need react to listening user state.
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       //auth() The Firebase Auth service interface listening auth state like sign-in props is user.
@@ -38,10 +38,10 @@ class App extends React.Component {
         });
       }
       setCurrentUser(userAuth); // CurrentUser is null.
-      /*  addCollectionAndDocuments(   
+      addCollectionAndDocuments(
         "collections",
         collectionArray.map(({ title, items }) => ({ title, items })) // we want title/items
-      ); */
+      );
     });
   }
 
@@ -77,7 +77,7 @@ class App extends React.Component {
 }
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser, // replace (rootreducer == state) => currentUser: state.user.currentUser
-  //collectionArray: selectCollectionsForPreview,
+  collectionArray: selectCollectionsForPreview,
 });
 /*
 About mapStatetoProps
