@@ -10,7 +10,7 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
   selectCollections,
-  (collections) => Object.keys(collections).map((key) => collections[key])  
+  (collections) => Object.keys(collections).map((key) => collections[key])
   // collections[hats] == collections.hats
   // for...in can literate keys include prototype but won't take Object to Array
 );

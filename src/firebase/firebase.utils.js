@@ -14,21 +14,25 @@ const config = {
 };
 
 export const creatUserProfileDocument = async (userAuth, additionalData) => {
-  //userAuth get back from Auth
-  if (!userAuth) return; // if there is no userAuth exist then return.
+  //userAuth from Auth, it will return a UID
+  if (!userAuth) return; // if there is no user ID exist then return.
   const userRef = firestore.doc(`users/${userAuth.uid}`);
   /* 
+  Even we don't give a explicit path like userAuth.uid, doc will still create a new random uid to return (NoSQL). 
   queries method, doc() from firebase NoSQL cloud databasse collection/documentID 
   here is user.uid whatever uid exist or not google will give u one
   */
-  const snapshot = await userRef.get(); // (CRUD) Read = retrive contents from users/userAuth.uid(userRef)
+  const snapshot = await userRef.get();
+  /* 
+  (CRUD) Read = retrive contents from users/userAuth.uid(userRef)
+  */
   if (!snapshot.exists) {
     // if doc.users.userAuth.uid return false(dont exist) then create.
     const { displayName, email, photoURL } = userAuth; // get userdata from userauth (google, email/password...)
     const createdAt = new Date();
     try {
       await userRef.set({
-        // set == create doc.users.displayname...
+        // set == create doc.users.dis playname...
         displayName,
         email,
         createdAt,
@@ -41,6 +45,39 @@ export const creatUserProfileDocument = async (userAuth, additionalData) => {
   }
   return userRef; //if doc.user.don't have data then create, if exist, return doc.user.displayname...
 };
+
+// shop.data.js is replace by addCollectionAndDocuments
+export const addCollectionAndDocuments = async (CollectionKey, objectToAdd) => {
+  const collectionRef = firestore.collection(CollectionKey); // path, but it probably doesn't exist.
+  console.log(collectionRef);
+  const batch = firestore.batch(); // set things at a time
+  objectToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc(); // we create collections path and then we create doc path.
+    console.log(newDocRef);
+    batch.set(newDocRef, obj); //path and things your want to store in firestore
+  });
+
+  return await batch.commit();
+};
+
+export const convertCollectionSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+    console.log(doc.id);
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      // firebase don't have it casue we  only upload item/title from shopdata
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+  transformedCollection.reduce((accumlator, collection) => {
+    accumlator[collection.title.toLowerCase()] = collection;
+    return accumlator;
+  }, {});
+};
+
 // Initialize Firebase
 firebase.initializeApp(config);
 
