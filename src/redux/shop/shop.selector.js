@@ -25,6 +25,11 @@ export const selectIscollectionFetching = createSelector(
   [selectShop],
   (shop) => shop.isFetching
 );
+
+export const selectIsCollectionsLoaded = createSelector(
+  [selectShop],
+  (shop) => !!shop.collections // !! will return same bloolen value t/f , but if false will still be false
+);
 /* 
 if we use data normaliztion , then we don't need below
 const COLLECTION_ID_MAP = {
