@@ -21,6 +21,10 @@ export const selectCollection = (collectionUrlParam) =>
     collections ? collections[collectionUrlParam] : null
   );
 
+export const selectIscollectionFetching = createSelector(
+  [selectShop],
+  (shop) => shop.isFetching
+);
 /* 
 if we use data normaliztion , then we don't need below
 const COLLECTION_ID_MAP = {

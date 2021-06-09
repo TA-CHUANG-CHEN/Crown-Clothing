@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware } from "redux";
 import { persistStore } from "redux-persist";
 import logger from "redux-logger"; //GUI
-
+import thunk from "redux-thunk";
 import rootReducer from "./root-reducer";
 
-const middlewares = []; //logger is dispatch GUI log in dev.tool
+const middlewares = [thunk]; //middlewares intercept data between action && reducer
 
 if (process.env.NODE_ENV === "development") {
-  middlewares.push(logger);
+  middlewares.push(logger); //logger is dispatch GUI log in dev.tool
 }
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 

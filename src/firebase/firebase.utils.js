@@ -47,7 +47,7 @@ export const creatUserProfileDocument = async (userAuth, additionalData) => {
 };
 
 // shop.data.js is replace by addCollectionAndDocuments
-export const addCollectionAndDocuments = async (CollectionKey, objectToAdd) => {
+/* export const addCollectionAndDocuments = async (CollectionKey, objectToAdd) => {
   const collectionRef = firestore.collection(CollectionKey); // path, but it probably doesn't exist.
   console.log(collectionRef);
   const batch = firestore.batch(); // set things at a time
@@ -58,14 +58,14 @@ export const addCollectionAndDocuments = async (CollectionKey, objectToAdd) => {
   });
 
   return await batch.commit();
-};
+}; */
 
 export const convertCollectionSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map((doc) => {
     const { title, items } = doc.data();
     return {
       routeName: encodeURI(title.toLowerCase()),
-      // firebase don't have it casue we  only upload item/title from shopdata
+      // firestore don't have routename casue we only upload item/title from shopdata
       id: doc.id,
       title,
       items,
