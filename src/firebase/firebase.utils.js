@@ -84,7 +84,9 @@ firebase.initializeApp(config);
 export const auth = firebase.auth(); //The Firebase Auth service interface.
 export const firestore = firebase.firestore(); //The Cloud Firestore service interface.
 
-const provider = new firebase.auth.GoogleAuthProvider(); //Interface that represents an auth provider.
-provider.setCustomParameters({ prompt: "select_account" }); // The authorization server prompts the user to select a user account
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const googleProvider = new firebase.auth.GoogleAuthProvider(); //Interface that represents an auth provider.
+googleProvider.setCustomParameters({ prompt: "select_account" });
+//provider.setCustomParameters({ prompt: "select_account" }); // The authorization server prompts the user to select a user account
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
+
 export default firebase;

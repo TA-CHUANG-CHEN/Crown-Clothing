@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,qBAAqB,CAAA;EACrB,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;CACrB",
+    "sources": [
+        "collections-overview.component.style.scss"
+    ],
+    "names": [],
+    "file": "collections-overview.component.style.css"
+}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,QAAQ,CAAC;EACP,KAAK,EAAE,KAAK;EACZ,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;CAQvB;;AAXD,AAIE,QAJM,CAIN,MAAM,CAAC;EACL,MAAM,EAAE,MAAM;CACf;;AANH,AAOE,QAPM,CAON,QAAQ,CAAC;EACP,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,aAAa;CAC/B",
+    "sources": [
+        "sign-in.component.style.scss"
+    ],
+    "names": [],
+    "file": "sign-in.component.style.css"
+}

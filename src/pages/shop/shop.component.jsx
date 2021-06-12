@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchCollectionsStartAsync } from "../../redux/shop/shop.actions";
+import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 import CollectionPageContainer from "./../collection/collection.container";
 import CollectionsOVerviewCOntainer from "../../components/collections-overview/collections-overview.container";
 
@@ -10,9 +10,9 @@ const CollectionPageWithSpinner = WithSpinner(CollectionPage); //HOC for loading
  */
 class ShopPage extends React.Component {
   componentDidMount() {
-    const { fetchCollectionsStartAsync } = this.props;
+    const { fetchCollectionsStart } = this.props;
     console.log(this.props);
-    fetchCollectionsStartAsync();
+    fetchCollectionsStart();
   }
   /*  //we don't need construtor && super to keep this because react help us to do it.
   state = {
@@ -75,7 +75,7 @@ class ShopPage extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
 });
 /* const mapDispatchToProps = (dispatch) => ({
   updateCollections: (collectionsMap) =>

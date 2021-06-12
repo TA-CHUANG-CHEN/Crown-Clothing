@@ -20,9 +20,9 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
-  componentDidMount() {
+ /*  componentDidMount() {
     // const setCurrentUser = this.props.setCurrentUser; same
-    const { setCurrentUser /* collectionArray */ } = this.props; //this props dispatch from mapDispatchtoProps setCurrentUser
+    const { setCurrentUser, collectionArray } = this.props; //this props dispatch from mapDispatchtoProps setCurrentUser
     // we need react to listening user state.
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       //auth() The Firebase Auth service interface listening auth state like sign-in props is user.
@@ -38,13 +38,13 @@ class App extends React.Component {
         });
       }
       setCurrentUser(userAuth); // CurrentUser is null.
-      /*   addCollectionAndDocuments(
+         addCollectionAndDocuments(
         "collections",
         collectionArray.map(({ title, items }) => ({ title, items })) // we only want title/items
-      ); */
+      ); 
     });
   }
-
+ */
   render() {
     return (
       <div>
