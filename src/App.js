@@ -8,19 +8,24 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInSignUpPage from "./pages/sing-in-sign-up/sign-in-sign-up.component";
-import {
+import { selectCurrentUser } from "./redux/user/user.selectors";
+import { checkUserSession } from "./redux/user/user.actions";
+/* import {
   auth,
   creatUserProfileDocument,
-  /* addCollectionAndDocuments, //this is for store shop data at a time in firebase */
-} from "./firebase/firebase.utils";
-import { setCurrentUser } from "./redux/user/user.actions";
-import { selectCurrentUser } from "./redux/user/user.selectors";
+  /* addCollectionAndDocuments, //this is for store shop data at a time in firebase 
+} from "./firebase/firebase.utils"; */
+//wer don't need firebase utility func anymore because we move to saga
+//import { setCurrentUser } from "./redux/user/user.actions";  move to saga
 //import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
-
- /*  componentDidMount() {
+  componentDidMount() {
+    const { checkUserSession } = this.props;
+    checkUserSession();
+  }
+  /*  componentDidMount() {
     // const setCurrentUser = this.props.setCurrentUser; same
     const { setCurrentUser, collectionArray } = this.props; //this props dispatch from mapDispatchtoProps setCurrentUser
     // we need react to listening user state.
@@ -46,6 +51,8 @@ class App extends React.Component {
   }
  */
   render() {
+    const { currentUser } = this.props;
+    console.log("currentUser");
     return (
       <div>
         <Header />
@@ -63,11 +70,7 @@ class App extends React.Component {
             exact
             path="/signin"
             render={() =>
-              this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInSignUpPage />
-              )
+              currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
             }
           />
         </Switch>
@@ -79,17 +82,23 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser, // replace (rootreducer == state) => currentUser: state.user.currentUser
   //collectionArray: selectCollectionsForPreview,
 });
+
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 /*
 About mapStatetoProps
 
 1.It is called every time the store state changes.
 2.It receives the entire store state, and should return an object of data this component needs, so that why we need reselector.
 
-*/
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
-/*
+
 About mapDispatchToProps
 React Redux gives you two ways to let components dispatch actions:
 (dispatch is a function of the Redux store. You call store.dispatch to dispatch an action. This is the only way to trigger a state change)
@@ -99,4 +108,3 @@ React Redux gives you two ways to let components dispatch actions:
    ( if you define your own mapDispatchToProps, the connected component will no longer receive dispatch.)
 */
 /* In conclusion,  mapStateToProps can receive props into state everywhere ,mapDispatchToProps is the only way pass state props */
-export default connect(mapStateToProps, mapDispatchToProps)(App);

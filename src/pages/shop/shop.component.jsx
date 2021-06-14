@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 import CollectionPageContainer from "./../collection/collection.container";
-import CollectionsOVerviewCOntainer from "../../components/collections-overview/collections-overview.container";
+import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
 
 /* const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview); //HOC for loading
 const CollectionPageWithSpinner = WithSpinner(CollectionPage); //HOC for loading
@@ -11,7 +11,6 @@ const CollectionPageWithSpinner = WithSpinner(CollectionPage); //HOC for loading
 class ShopPage extends React.Component {
   componentDidMount() {
     const { fetchCollectionsStart } = this.props;
-    console.log(this.props);
     fetchCollectionsStart();
   }
   /*  //we don't need construtor && super to keep this because react help us to do it.
@@ -57,7 +56,7 @@ class ShopPage extends React.Component {
         <Route
           exact
           path={`${match.path}`} /* component={CollectionsOverview}*/
-          component={CollectionsOVerviewCOntainer}
+          component={CollectionsOverviewContainer}
         />
         <Route
           path={`${match.path}/:collectionId`}

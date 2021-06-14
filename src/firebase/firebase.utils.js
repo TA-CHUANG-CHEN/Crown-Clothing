@@ -62,6 +62,7 @@ export const creatUserProfileDocument = async (userAuth, additionalData) => {
 
 export const convertCollectionSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map((doc) => {
+    // return new array
     const { title, items } = doc.data();
     return {
       routeName: encodeURI(title.toLowerCase()),
@@ -71,11 +72,26 @@ export const convertCollectionSnapshotToMap = (collections) => {
       items,
     };
   });
-
   return transformedCollection.reduce((accumlator, collection) => {
     accumlator[collection.title.toLowerCase()] = collection;
+    /*{
+      jackets :{ 
+      routeName: 
+      id: doc.id,
+      title,
+      items}
+    }*/
     return accumlator;
   }, {});
+};
+
+export const getCurrentUser = () => {
+  return new Promise((res, rej) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      res(userAuth);
+    }, rej);
+  });
 };
 
 // Initialize Firebase

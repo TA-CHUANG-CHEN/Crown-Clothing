@@ -1,8 +1,8 @@
 import ShopActionTypes from "./shop.types";
-import {
+/* import {
   firestore,
   convertCollectionSnapshotToMap,
-} from "../../firebase/firebase.utils";
+} from "../../firebase/firebase.utils"; */
 
 export const fetchCollectionsStart = () => ({
   type: ShopActionTypes.FETCH_COLLECTIONS_STARTS,
@@ -18,7 +18,7 @@ export const fetchCollectionsFailure = (errorMessage) => ({
   payload: errorMessage,
 });
 
-export const fetchCollectionsStartAsync = () => {
+/* export const fetchCollectionsStartAsync = () => {
   // that how thunk doing, handle asynchronuous function to dispatch action.
   return (dispatch) => {
     const collectionsRef = firestore.collection("collections");
@@ -31,4 +31,4 @@ export const fetchCollectionsStartAsync = () => {
       })
       .catch((error) => dispatch(fetchCollectionsFailure(error.message))); // step:2  catch if fetch failure,
   };
-};
+}; */
