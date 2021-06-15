@@ -30,6 +30,11 @@ const cartReducer = (state = INITIAL_STATE, action) => {
           (cartItems) => cartItems.id !== action.payload.id
         ), // if cartItems.id == action.payload.id, means same item.
       };
+    case CartActionTypes.CLEAR_CART:
+      return {
+        ...state,
+        cartItems: [],
+      };
     default:
       return state;
   }

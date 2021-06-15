@@ -16,7 +16,9 @@ const CollectionPage = ({ collection }) => {
     </div>
   );
 };
-const mapStateToProps = (state, ownProps) => ({
-  collection: selectCollection(ownProps.match.params.collectionId)(state), // here is currying, first we need arg1 and pass into arg2(state)
-});
+const mapStateToProps = (state, ownProps) => {
+  return {
+    collection: selectCollection(ownProps.match.params.collectionId)(state), // here is currying, first we need arg1 and pass into arg2(state)
+  };
+};
 export default connect(mapStateToProps)(CollectionPage);
