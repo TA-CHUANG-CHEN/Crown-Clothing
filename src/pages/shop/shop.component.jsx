@@ -1,4 +1,4 @@
-import React from "react";
+import React, { userEffet } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
@@ -8,11 +8,10 @@ import CollectionsOverviewContainer from "../../components/collections-overview/
 /* const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview); //HOC for loading
 const CollectionPageWithSpinner = WithSpinner(CollectionPage); //HOC for loading
  */
-class ShopPage extends React.Component {
-  componentDidMount() {
-    const { fetchCollectionsStart } = this.props;
+const ShopPage = ({ fetchCollectionsStart, match }) => {
+  userEffet(() => {
     fetchCollectionsStart();
-  }
+  }, [fetchCollectionsStart]); // we dispatch so we don't need to worry rerender again, it can use empty array[] too.
   /*  //we don't need construtor && super to keep this because react help us to do it.
   state = {
     loading: true,
@@ -46,32 +45,26 @@ class ShopPage extends React.Component {
       }
     );
   } */
-  render() {
-    const { match } = this.props;
-
-    console.log(this.props);
-
-    return (
-      <div className="shop-page">
-        <Route
-          exact
-          path={`${match.path}`} /* component={CollectionsOverview}*/
-          component={CollectionsOverviewContainer}
-        />
-        <Route
-          path={`${match.path}/:collectionId`}
-          component={CollectionPageContainer} //we use container pattern && compose(Redux) to isolate component
-          // render={(props) => (
-          //   <CollectionPageWithSpinner
-          //     isLoading={CollectionPageContainer} //return false will become true.
-          //     {...props}
-          //   />
-          // )}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="shop-page">
+      <Route
+        exact
+        path={`${match.path}`} /* component={CollectionsOverview}*/
+        component={CollectionsOverviewContainer}
+      />
+      <Route
+        path={`${match.path}/:collectionId`}
+        component={CollectionPageContainer} //we use container pattern && compose(Redux) to isolate component
+        // render={(props) => (
+        //   <CollectionPageWithSpinner
+        //     isLoading={CollectionPageContainer} //return false will become true.
+        //     {...props}
+        //   />
+        // )}
+      />
+    </div>
+  );
+};
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),

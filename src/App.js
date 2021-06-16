@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -19,12 +19,10 @@ import { checkUserSession } from "./redux/user/user.actions";
 //import { setCurrentUser } from "./redux/user/user.actions";  move to saga
 //import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 
-class App extends React.Component {
-  unsubscribeFromAuth = null;
-  componentDidMount() {
-    const { checkUserSession } = this.props;
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
     checkUserSession();
-  }
+  }, [checkUserSession]);
   /*  componentDidMount() {
     // const setCurrentUser = this.props.setCurrentUser; same
     const { setCurrentUser, collectionArray } = this.props; //this props dispatch from mapDispatchtoProps setCurrentUser
@@ -50,34 +48,31 @@ class App extends React.Component {
     });
   }
  */
-  render() {
-    const { currentUser } = this.props;
-    console.log("currentUser");
-    return (
-      <div>
-        <Header />
-        <Switch>
-          {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
-          <Route exact path="/" component={HomePage} />
-          {/* 
+  return (
+    <div>
+      <Header />
+      <Switch>
+        {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
+        <Route exact path="/" component={HomePage} />
+        {/* 
         1. All route props (match, location and history) are available to Homepages 
         2. Routes without a path always match, path='/' means when homepage will be render URL with /. like http://www.test.com/ <- start from here.
         3. When exact == true, will only match if the path matches the location.pathname exactly.
         */}
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
-            }
-          />
-        </Switch>
-      </div>
-    );
-  }
-}
+        <Route path="/shop" component={ShopPage} />
+        <Route exact path="/checkout" component={CheckoutPage} />
+        <Route
+          exact
+          path="/signin"
+          render={() =>
+            currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
+          }
+        />
+      </Switch>
+    </div>
+  );
+};
+
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser, // replace (rootreducer == state) => currentUser: state.user.currentUser
   //collectionArray: selectCollectionsForPreview,
