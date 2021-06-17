@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== "prodcction") require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
-const port = process.env.PORT || 5000; //heroku produce for us
+const port = process.env.PORT || 6000; //heroku produce for us
 /* 
 app.use(bodyParser.json());
 app.use(bodyParser, urlencoded({ extended: true })); */
@@ -19,9 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client/build")));
+  app.use(express.static(path.join(__dirname, "clients/build")));
   app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "cliend/build", "index.html"));
+    res.sendFile(path.join(__dirname, "clients/build", "index.html"));
   });
 }
 
