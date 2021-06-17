@@ -32,7 +32,7 @@ app.listen(port, (error) => {
 
 app.post("/payment", (req, res) => {
   const body = {
-    sourece: req.body.token.id,
+    source: req.body.token.id,
     amount: req.body.amount,
     currency: "twd",
   };
