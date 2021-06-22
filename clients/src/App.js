@@ -6,6 +6,8 @@ import { GlobalStyle } from "./global.styles";
 import Header from "./components/header/header.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
+import HomePage from "./pages/homepage/homepage.component";
+import Spinner from "./components/spinner/spinner.component";
 /* import {
   auth,
   creatUserProfileDocument,
@@ -14,8 +16,7 @@ import { checkUserSession } from "./redux/user/user.actions";
 //wer don't need firebase utility func anymore because we move to saga
 //import { setCurrentUser } from "./redux/user/user.actions";  move to saga
 //import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
-const HomePage = lazy(() => import("./pages/homepage/homepage.component"));
-const ShopPage = lazy(() => import("./pages/homepage/homepage.component"));
+const ShopPage = lazy(() => import("./pages/shop/shop.component.jsx"));
 const CheckoutPage = lazy(() => import("./pages/checkout/checkout.component"));
 const SignInSignUpPage = lazy(() =>
   import("./pages/sing-in-sign-up/sign-in-sign-up.component")
@@ -56,14 +57,9 @@ const App = ({ checkUserSession, currentUser }) => {
       <GlobalStyle />
       <Header />
       <Switch>
-        <Suspense fallback={alert("fuck")}>
+        <Suspense fallback={<Spinner />}>
           {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
           <Route exact path="/" component={HomePage} />
-          {/* 
-        1. All route props (match, location and history) are available to Homepages 
-        2. Routes without a path always match, path='/' means when homepage will be render URL with /. like http://www.test.com/ <- start from here.
-        3. When exact == true, will only match if the path matches the location.pathname exactly.
-        */}
           <Route path="/shop" component={ShopPage} />
           <Route exact path="/checkout" component={CheckoutPage} />
           <Route
@@ -73,6 +69,11 @@ const App = ({ checkUserSession, currentUser }) => {
               currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
             }
           />
+          {/* 
+        1. All route props (match, location and history) are available to Homepages 
+        2. Routes without a path always match, path='/' means when homepage will be render URL with /. like http://www.test.com/ <- start from here.
+        3. When exact == true, will only match if the path matches the location.pathname exactly.
+        */}
         </Suspense>
       </Switch>
     </div>
