@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import CheckoutPage from "./pages/checkout/checkout.component";
-import "./App.css";
-import HomePage from "./pages/homepage/homepage.component";
-import ShopPage from "./pages/shop/shop.component";
+import { GlobalStyle } from "./global.styles";
 import Header from "./components/header/header.component";
-import SignInSignUpPage from "./pages/sing-in-sign-up/sign-in-sign-up.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 /* import {
@@ -18,11 +14,18 @@ import { checkUserSession } from "./redux/user/user.actions";
 //wer don't need firebase utility func anymore because we move to saga
 //import { setCurrentUser } from "./redux/user/user.actions";  move to saga
 //import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
+const HomePage = lazy(() => import("./pages/homepage/homepage.component"));
+const ShopPage = lazy(() => import("./pages/homepage/homepage.component"));
+const CheckoutPage = lazy(() => import("./pages/checkout/checkout.component"));
+const SignInSignUpPage = lazy(() =>
+  import("./pages/sing-in-sign-up/sign-in-sign-up.component")
+);
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
     checkUserSession();
-  }, [checkUserSession]);
+  }, [checkUserSession]); //if u want to unmount it, using return user = 'null'
+
   /*  componentDidMount() {
     // const setCurrentUser = this.props.setCurrentUser; same
     const { setCurrentUser, collectionArray } = this.props; //this props dispatch from mapDispatchtoProps setCurrentUser
@@ -50,24 +53,27 @@ const App = ({ checkUserSession, currentUser }) => {
  */
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
-        {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
-        <Route exact path="/" component={HomePage} />
-        {/* 
+        <Suspense fallback={alert("fuck")}>
+          {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
+          <Route exact path="/" component={HomePage} />
+          {/* 
         1. All route props (match, location and history) are available to Homepages 
         2. Routes without a path always match, path='/' means when homepage will be render URL with /. like http://www.test.com/ <- start from here.
         3. When exact == true, will only match if the path matches the location.pathname exactly.
         */}
-        <Route path="/shop" component={ShopPage} />
-        <Route exact path="/checkout" component={CheckoutPage} />
-        <Route
-          exact
-          path="/signin"
-          render={() =>
-            currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
-          }
-        />
+          <Route path="/shop" component={ShopPage} />
+          <Route exact path="/checkout" component={CheckoutPage} />
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
+            }
+          />
+        </Suspense>
       </Switch>
     </div>
   );

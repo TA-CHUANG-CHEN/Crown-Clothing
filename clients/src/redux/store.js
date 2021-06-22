@@ -17,7 +17,7 @@ export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 sagaMiddleware.run(rootSaga);
 
 // 1. store that holds the complete state tree of your app, There should only be a single store in your app.
-export const persistor = persistStore(store);
+export const persistor = persistStore(store); //store all state in local storage
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default { store, persistStore };

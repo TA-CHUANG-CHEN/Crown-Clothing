@@ -11,6 +11,13 @@ import {
 
 const SignIn = ({ emailSignInStart, googleSignInStart }) => {
   const [userCredential, setCredential] = useState({ email: "", password: "" });
+  /* equivalent to constructor (){
+    super()
+    this.state = {
+      email:"",
+      password:'',
+    }
+  } */
   const { email, password } = userCredential;
 
   const handleSubmit = async (e) => {
@@ -21,6 +28,7 @@ const SignIn = ({ emailSignInStart, googleSignInStart }) => {
   const handleChange = (e) => {
     const { value, name } = e.target;
     setCredential({ ...userCredential, [name]: value });
+    // setState will keep things even we update it, but useState will replace the object, that's why we need spread.
   };
   return (
     <div className="sign-in">
