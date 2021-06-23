@@ -8,6 +8,7 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 import HomePage from "./pages/homepage/homepage.component";
 import Spinner from "./components/spinner/spinner.component";
+import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 /* import {
   auth,
   creatUserProfileDocument,
@@ -57,24 +58,26 @@ const App = ({ checkUserSession, currentUser }) => {
       <GlobalStyle />
       <Header />
       <Switch>
-        <Suspense fallback={<Spinner />}>
-          {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
-            }
-          />
-          {/* 
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner />}>
+            {/* 1. Switch will render the first child <Route> or <Redirect> that matches the location */}
+            <Route exact path="/" component={HomePage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route
+              exact
+              path="/signin"
+              render={() =>
+                currentUser ? <Redirect to="/" /> : <SignInSignUpPage />
+              }
+            />
+            {/* 
         1. All route props (match, location and history) are available to Homepages 
         2. Routes without a path always match, path='/' means when homepage will be render URL with /. like http://www.test.com/ <- start from here.
         3. When exact == true, will only match if the path matches the location.pathname exactly.
         */}
-        </Suspense>
+          </Suspense>
+        </ErrorBoundary>
       </Switch>
     </div>
   );
@@ -86,7 +89,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  checkUserSession: () => dispatch(checkUserSession()),
+  checkUserSession: () => dispatch(checkUserSession()), //action -> saga detect -> execute saga -> reducer (async)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

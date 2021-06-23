@@ -2,12 +2,21 @@ import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
-import CollectionPageContainer from "./../collection/collection.container";
-import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
+import Spinner from "../../components/spinner/spinner.component";
+
+//import CollectionPageContainer from "./../collection/collection.container";
+//mport CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
 
 /* const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview); //HOC for loading
 const CollectionPageWithSpinner = WithSpinner(CollectionPage); //HOC for loading
  */
+const CollectionsOverviewContainer = React.lazy(() =>
+  import("../../components/collections-overview/collections-overview.container")
+);
+const CollectionPageContainer = React.lazy(() =>
+  import("../collection/collection.container")
+);
+
 const ShopPage = ({ fetchCollectionsStart, match }) => {
   useEffect(() => {
     fetchCollectionsStart();
@@ -46,23 +55,25 @@ const ShopPage = ({ fetchCollectionsStart, match }) => {
     );
   } */
   return (
-    <div className="shop-page">
-      <Route
-        exact
-        path={`${match.path}`} /* component={CollectionsOverview}*/
-        component={CollectionsOverviewContainer}
-      />
-      <Route
-        path={`${match.path}/:collectionId`}
-        component={CollectionPageContainer} //we use container pattern && compose(Redux) to isolate component
-        // render={(props) => (
-        //   <CollectionPageWithSpinner
-        //     isLoading={CollectionPageContainer} //return false will become true.
-        //     {...props}
-        //   />
-        // )}
-      />
-    </div>
+    <React.Suspense fallback={<Spinner />}>
+      <div className="shop-page">
+        <Route
+          exact
+          path={`${match.path}`} /* component={CollectionsOverview}*/
+          component={CollectionsOverviewContainer}
+        />
+        <Route
+          path={`${match.path}/:collectionId`}
+          component={CollectionPageContainer} //we use container pattern && compose(Redux) to isolate component
+          // render={(props) => (
+          //   <CollectionPageWithSpinner
+          //     isLoading={CollectionPageContainer} //return false will become true.
+          //     {...props}
+          //   />
+          // )}
+        />
+      </div>
+    </React.Suspense>
   );
 };
 
