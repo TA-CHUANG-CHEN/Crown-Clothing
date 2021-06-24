@@ -22,7 +22,7 @@ app.use(enforce.HTTPS({ trustProtoHeader: true }));
 app.use(cors());
 
 app.get("/service-worker.js", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "builds", "service-worker.js"));
+  res.sendFile(path.join(__dirname, "builds", "serviceWorkerRegistration.js"));
 });
 
 if (process.env.NODE_ENV === "production") {
