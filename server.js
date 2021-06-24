@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== "prodcction") require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
-app.use(compression);
+app.use(compression());
 const port = process.env.PORT || 6000; //heroku produce for us
 /* 
 app.use(bodyParser.json());
